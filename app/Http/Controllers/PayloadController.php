@@ -7,7 +7,13 @@ use Illuminate\Http\Request;
 
 class PayloadController extends Controller
 {
-    public function actionPayload(Request $request) {
-        return new JsonResponse('Hello world');
+    public function actionPayload(Request $request, $project) {
+        $event = $request->header('X-GitHub-Event');
+
+        if ($event === 'ping') {
+            return new JsonResponse(['message' => 'pong']);
+        }
+
+        return new JsonResponse(['error' => 'Unknown X-GitHub-Event value ['.$event.']'], 422);
     }
 }
