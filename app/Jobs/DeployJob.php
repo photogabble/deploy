@@ -2,7 +2,10 @@
 
 namespace App\Jobs;
 
-class ExampleJob extends Job
+/**
+ * Class DeployJob
+ */
+class DeployJob extends Job
 {
     /**
      * Create a new job instance.
