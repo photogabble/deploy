@@ -18,6 +18,9 @@ class PayloadController extends Controller
         if ($event === 'ping') {
             return new JsonResponse(['message' => 'pong']);
         } else if ($event === 'push') {
+
+            // @todo if this push event matches an branch that our $project has an environment configured for then dispatch a new deployment
+
             $archive = $request->json('repository.archive_url');
             $archive = str_replace('{archive_format}', 'archive', $archive);
             $archive = str_replace('{/ref}', $request->json('after'), $archive);

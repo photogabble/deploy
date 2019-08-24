@@ -14,7 +14,6 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Project $project
- * @property-read Server $server
  * @method static Builder|Deployment newModelQuery()
  * @method static Builder|Deployment newQuery()
  * @method static Builder|Deployment query()
@@ -35,19 +34,19 @@ class Deployment extends Model
         // Validation rules
     ];
 
-    /**
-     * @return BelongsTo|Project
-     */
-    public function project()
-    {
-        return $this->belongsTo(Project::class, 'project_id');
-    }
-
-    /**
-     * @return BelongsTo|Server
-     */
-    public function server()
-    {
-        return $this->belongsTo(Server::class, 'server_id');
-    }
+//    /**
+//     * @return BelongsTo|Project
+//     */
+//    public function project()
+//    {
+//        return $this->belongsTo(Project::class, 'project_id');
+//    }
+//
+//    /**
+//     * @return BelongsTo|Server
+//     */
+//    public function server()
+//    {
+//        return $this->belongsTo(Server::class, 'server_id');
+//    }
 }

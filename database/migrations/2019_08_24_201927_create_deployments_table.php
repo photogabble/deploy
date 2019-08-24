@@ -11,15 +11,20 @@ class CreateDeploymentsTable extends Migration
     {
         Schema::create('deployments', function(Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('project_id');
-            $table->unsignedBigInteger('server_id');
+
+            // We deploy a project against an environment, eg production, staging, etc
+            // maybe in the future we can allow PRs to have temp environments set up
+            // so we can preview what a PR will look like... good for
+            // static site generators.
+
+            $table->unsignedBigInteger('environment_id');
             $table->timestamps();
 
             $table->foreign('project_id')
                 ->references('id')->on('projects');
 
-            $table->foreign('server_id')
-                ->references('id')->on('servers')
+            $table->foreign('environment_id')
+                ->references('id')->on('environments')
                 ->onDelete('cascade');
         });
     }

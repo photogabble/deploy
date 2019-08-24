@@ -24,9 +24,10 @@ use Illuminate\Support\Carbon;
  * @property string $name
  * @property string $provider
  * @property string $repository
- * @property string $branch
+ * @property string $main_branch
  * @property string|null $heartbeat_url
- * @method static Builder|Project whereBranch($value)
+ * @method static Builder|Project whereUuid($value)
+ * @method static Builder|Project whereMainBranch($value)
  * @method static Builder|Project whereCreatedAt($value)
  * @method static Builder|Project whereHeartbeatUrl($value)
  * @method static Builder|Project whereId($value)
@@ -36,7 +37,6 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Project whereUpdatedAt($value)
  * @method static Builder|Project whereUserId($value)
  * @property string $uuid
- * @method static Builder|Project whereUuid($value)
  */
 class Project extends Model
 {
@@ -72,6 +72,14 @@ class Project extends Model
     public function deployments()
     {
         return $this->hasMany(Deployment::class, 'project_id');
+    }
+
+    /**
+     * @return HasMany|Collection|Environment[]
+     */
+    public function environments()
+    {
+        return $this->hasMany(Environment::class, 'project_id');
     }
 
     /**

@@ -17,7 +17,7 @@ class CreateProjectTable extends Migration
             $table->string('name');
             $table->enum('provider', ['github', 'gitlab']);
             $table->string('repository');
-            $table->string('branch')->default('master');
+            $table->string('main_branch')->default('master');
             $table->string('heartbeat_url')->nullable();
 
             $table->foreign('user_id')

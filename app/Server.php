@@ -64,4 +64,12 @@ class Server extends Model
     {
         return $this->hasMany(Deployment::class, 'server_id');
     }
+
+    /**
+     * @return HasMany|Collection|Environment[]
+     */
+    public function environments()
+    {
+        return $this->hasMany(Environment::class, 'server_id');
+    }
 }
