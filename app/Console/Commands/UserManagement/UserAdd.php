@@ -39,14 +39,34 @@ class UserAdd extends Command
     public function handle()
     {
         $user = new User(['name' => $this->argument('name'), 'email' => $this->argument('email')]);
+        $passwordObtained = false;
+        $passwordGenerated = false;
+        $password = '';
 
-        $random = str_shuffle('abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890!$%^&!$%^&');
-        $password = substr($random, 0, 32);
+        while (!$passwordObtained) {
+            $password = $this->secret("password (leave empty for autogen)");
+
+            if (strlen($password) > 0) {
+                $check = $this->secret("please repeat the password");
+                if ($check === $password){
+                    $passwordObtained = true;
+                } else {
+                    $this->line('The password you entered does not match, please try again');
+                }
+            } else {
+                $passwordGenerated = true;
+                $random = str_shuffle('abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890!$%^&!$%^&');
+                $password = substr($random, 0, 32);
+                $passwordObtained = true;
+            }
+        }
+
+
         $user->password = $password;
 
         $user->save();
 
-        $this->line('New user added with id [<info>'. $user->id .'</info>] and password [<info>'. $password .'</info>]');
+        $this->line('New user added with id [<info>'. $user->id .'</info>] and password [<info>'. ($passwordGenerated ? $password : '****') .'</info>]');
 
         return 0;
     }
