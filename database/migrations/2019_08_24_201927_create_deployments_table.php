@@ -18,6 +18,8 @@ class CreateDeploymentsTable extends Migration
             // static site generators.
 
             $table->unsignedBigInteger('environment_id');
+            $table->unsignedBigInteger('project_id');
+
             $table->timestamps();
 
             $table->foreign('project_id')
