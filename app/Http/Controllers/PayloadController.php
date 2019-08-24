@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\DeployPayloadJob;
+use App\Project;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class PayloadController extends Controller
 {
-    public function actionPayload(Request $request, string $project) {
+    public function actionPayload(Request $request, string $project)
+    {
+        //$project = Project::whereId($project)
+
         $event = $request->header('X-GitHub-Event');
 
         if ($event === 'ping') {
@@ -15,10 +20,13 @@ class PayloadController extends Controller
         } else if ($event === 'push') {
             $archive = $request->json('repository.archive_url');
             $archive = str_replace('{archive_format}', 'archive', $archive);
-            $archive = str_replace('{/ref}',  $request->json('after'), $archive);
-            return new JsonResponse(['message' => 'ok', 'download' => $archive]);
+            $archive = str_replace('{/ref}', $request->json('after'), $archive);
+
+            $job = $this->dispatch(new DeployPayloadJob());
+
+            return new JsonResponse(['message' => 'ok', 'job_id' => $job]);
         }
-        return new JsonResponse(['error' => 'Unknown X-GitHub-Event value ['.$event.']'], 422);
+        return new JsonResponse(['error' => 'Unknown X-GitHub-Event value [' . $event . ']'], 422);
     }
 }
 

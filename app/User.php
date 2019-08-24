@@ -35,6 +35,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
  * @method static Builder|User wherePassword($value)
  * @method static Builder|User whereRememberToken($value)
  * @method static Builder|User whereUpdatedAt($value)
+ * @method static Builder|User whereLastLogin($value)
  */
 class User extends Model implements AuthenticatableContract, AuthorizableContract
 {
