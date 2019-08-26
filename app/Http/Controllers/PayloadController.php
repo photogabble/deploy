@@ -19,6 +19,7 @@ class PayloadController extends Controller
             return new JsonResponse(['message' => 'pong']);
         } else if ($event === 'push') {
 
+            // @todo check X-GitHub-Delivery hasn't already got a job dispatched against it
             // @todo if this push event matches an branch that our $project has an environment configured for then dispatch a new deployment
 
             $archive = $request->json('repository.archive_url');

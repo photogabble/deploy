@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d4c7182054413010bae2f9b11e842693",
+    "content-hash": "0570c27ff92d0f437b3e8752a325977f",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -1980,6 +1980,46 @@
                 "serialize"
             ],
             "time": "2019-07-09T21:58:11+00:00"
+        },
+        {
+            "name": "photogabble/lumen-form-request",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/photogabble/lumen-form-request.git",
+                "reference": "e45604bf6b68fbbc72e7a3772c846ac19379d1a8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/photogabble/lumen-form-request/zipball/e45604bf6b68fbbc72e7a3772c846ac19379d1a8",
+                "reference": "e45604bf6b68fbbc72e7a3772c846ac19379d1a8",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/lumen-framework": "5.8.*",
+                "php": ">=7.3.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Photogabble\\LumenFormRequest\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Simon Dann",
+                    "email": "simon.dann@gmail.com"
+                }
+            ],
+            "description": "Laravel-like form requests built for Lumen",
+            "time": "2019-08-25T23:50:33+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -5889,7 +5929,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.1.3"
+        "php": ">=7.3.4"
     },
     "platform-dev": []
 }
