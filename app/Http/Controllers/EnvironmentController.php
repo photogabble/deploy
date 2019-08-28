@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Environment\ViewRequest as ViewEnvironmentRequest;
 use App\Http\Requests\Project\ViewRequest as ViewProjectRequest;
-use App\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class ProjectController extends Controller
+class EnvironmentController extends Controller
 {
-    public function actionList(Request $request): JsonResponse
+    public function actionList(ViewProjectRequest $request): JsonResponse
     {
-        /** @var User $user */
-        $user = $request->user();
-        return new JsonResponse($user->projects);
+        return new JsonResponse($request->model()->environments());
     }
 
     public function actionCreate(Request $request): JsonResponse
@@ -23,12 +21,12 @@ class ProjectController extends Controller
         return new JsonResponse('501 Not Implemented', 501);
     }
 
-    public function actionView(ViewProjectRequest $request): JsonResponse
+    public function actionView(ViewEnvironmentRequest $request): JsonResponse
     {
         return new JsonResponse($request->model());
     }
 
-    public function actionUpdate(Request $request): JsonResponse
+    public function actionUpdate(ViewEnvironmentRequest $request): JsonResponse
     {
         return new JsonResponse('501 Not Implemented', 501);
     }

@@ -9,7 +9,9 @@
         "guzzlehttp/guzzle": "^6.3",
         "laravel/lumen-framework": "5.8.*",
         "league/flysystem": "^1.0",
-        "photogabble/lumen-form-request": "^1.0"
+        "photogabble/lumen-form-request": "^1.0",
+        "ramsey/uuid": "^3.8",
+        "ext-json": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",

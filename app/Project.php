@@ -41,14 +41,33 @@ use Illuminate\Support\Carbon;
 class Project extends Model
 {
 
+    use HasUUID;
+
     const PROVIDER_GITHUB = 'github';
     const PROVIDER_GITLAB = 'gitlab';
+    const PROVIDER_UNSUPPORTED = 'unsupported';
 
     protected $fillable = [];
 
     public static $rules = [
         // Validation rules
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function (Project $model) {
+           if (empty($model->provider)) {
+               if (strpos($model->repository, 'github.com') !== false) {
+                   $model->provider = static::PROVIDER_GITHUB;
+               } else if (strpos($model->repository, 'gitlab.com') !== false) {
+                   $model->provider = static::PROVIDER_GITLAB;
+               } else {
+                   $model->provider = static::PROVIDER_UNSUPPORTED;
+               }
+           }
+        });
+    }
 
     /**
      * @return BelongsTo|User
@@ -89,4 +108,9 @@ class Project extends Model
     {
         return $this->hasMany(Task::class, 'project_id');
     }
+
+    public function path(): string {
+        return route('project.view', ['project' => $this->id]);
+    }
+
 }

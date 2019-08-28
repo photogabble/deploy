@@ -1,4 +1,6 @@
-<?php
+<?php /** @var Factory $factory */
+
+use Illuminate\Database\Eloquent\Factory;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,5 +17,14 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->email,
+        'password' => 'password'
+    ];
+});
+
+
+$factory->define(App\Project::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->name,
+        'repository' => $faker->url,
     ];
 });

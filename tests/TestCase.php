@@ -11,4 +11,11 @@ abstract class TestCase extends Laravel\Lumen\Testing\TestCase
     {
         return require __DIR__.'/../bootstrap/app.php';
     }
+
+    public function responseJson(){
+
+        $this->seeJson();
+        return json_decode($this->response->getContent(), true);
+    }
 }
+;

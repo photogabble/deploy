@@ -3,43 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Project\ViewRequest as ViewProjectRequest;
-use App\User;
+use App\Http\Requests\Task\ViewRequest as ViewTaskRequest;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class ProjectController extends Controller
+class TaskController extends Controller
 {
-    public function actionList(Request $request): JsonResponse
-    {
-        /** @var User $user */
-        $user = $request->user();
-        return new JsonResponse($user->projects);
+    public function actionList (ViewProjectRequest $request) : JsonResponse {
+        return new JsonResponse($request->model()->servers());
     }
 
-    public function actionCreate(Request $request): JsonResponse
-    {
+    public function actionCreate (ViewProjectRequest $request) : JsonResponse {
         return new JsonResponse('501 Not Implemented', 501);
     }
 
-    public function actionView(ViewProjectRequest $request): JsonResponse
-    {
+    public function actionView (ViewTaskRequest $request): JsonResponse {
         return new JsonResponse($request->model());
     }
 
-    public function actionUpdate(Request $request): JsonResponse
+    public function actionUpdate (ViewTaskRequest $request) : JsonResponse
     {
         return new JsonResponse('501 Not Implemented', 501);
     }
 
     /**
-     * @param ViewProjectRequest $request
+     * @param ViewTaskRequest $request
      * @return Response
      * @throws Exception
      */
-    public function actionDelete(ViewProjectRequest $request): Response
-    {
+    public function actionDelete (ViewTaskRequest $request): Response {
         if ($request->model()->delete() === true) {
             return response('', 204);
         }

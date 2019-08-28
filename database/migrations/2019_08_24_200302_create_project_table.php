@@ -15,7 +15,7 @@ class CreateProjectTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
             $table->string('name');
-            $table->enum('provider', ['github', 'gitlab']);
+            $table->enum('provider', ['github', 'gitlab', 'unsupported']);
             $table->string('repository');
             $table->string('main_branch')->default('master');
             $table->string('heartbeat_url')->nullable();

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\DeployPayloadJob;
-use App\Project;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
