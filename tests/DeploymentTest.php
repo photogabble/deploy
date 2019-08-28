@@ -62,8 +62,6 @@ class DeploymentTest extends TestCase
 
     public function test_deploy_webhook_with_environments()
     {
-        $this->withoutExceptionHandling();
-
         /** @var Server $server */
         $server = $this->project->servers()->save(new Server([
             'name' => 'unit test example.com',
@@ -95,5 +93,46 @@ class DeploymentTest extends TestCase
         $json = $this->responseJson();
         $this->assertEquals(1, $json['jobs']);
         $this->seeInDatabase('jobs', ['id' => 1]);
+    }
+
+    public function test_deploy_webhook_with_duplicate_delivery()
+    {
+        $this->withoutExceptionHandling();
+
+        /** @var Server $server */
+        $server = $this->project->servers()->save(new Server([
+            'name' => 'unit test example.com',
+            'host' => 'example.com',
+            'username' => 'example',
+            'private_key' => '...',
+            'public_key' => '...',
+            'project_path' => '/var/www/public'
+        ]));
+
+        $environment = new Environment([
+            'url' => 'https://staging.example.com',
+            'branch' => 'refs/heads/master'
+        ]);
+
+        $environment->server()->associate($server);
+
+        $this->project->environments()->save($environment);
+
+        $data = [
+            'ref' => 'refs/heads/master',
+            'repository' => [
+                'archive_url' => 'https://api.github.com/repos/Acme/Hello-World/{archive_format}{/ref}',
+            ]
+        ];
+        $sig = 'sha1=' . hash_hmac('sha1', json_encode($data), env('X_HUB_SIGNATURE'), false);
+
+        $this->json('POST', $this->project->webHookPath(), $data, ['X-GitHub-Delivery' => 112233, 'X-Hub-Signature' => $sig, 'X-GitHub-Event' => 'push']);
+        $json = $this->responseJson();
+        $this->assertResponseOk();
+        $this->assertEquals(1, $json['jobs']);
+        $this->seeInDatabase('jobs', ['id' => 1]);
+
+        $this->json('POST', $this->project->webHookPath(), $data, ['X-GitHub-Delivery' => 112233, 'X-Hub-Signature' => $sig, 'X-GitHub-Event' => 'push']);
+        $this->assertResponseStatus(422);
     }
 }

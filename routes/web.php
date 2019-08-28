@@ -18,7 +18,7 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->group(['middleware' => 'x-hub-signature'], function () use ($router) {
+$router->group(['middleware' => ['x-hub-signature', 'x-github-delivery']], function () use ($router) {
     $router->post('/payload/{project}', ['as' => 'project.deploy', 'uses' => 'DeploymentController@actionWebHook']);
 });
 

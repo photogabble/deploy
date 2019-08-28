@@ -65,6 +65,7 @@ $app->singleton(
 
 $app->routeMiddleware([
     'x-hub-signature' => App\Http\Middleware\XHubSignatureMiddleware::class,
+    'x-github-delivery' => App\Http\Middleware\XGitHubDeliveryMiddleware::class,
 ]);
 
 /*
