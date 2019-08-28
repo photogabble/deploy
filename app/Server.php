@@ -1,19 +1,17 @@
 <?php namespace App;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Carbon;
 
 /**
  * App\Server
  *
  * @property int $id
  * @property int $project_id
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $last_connected
  * @property string $name
  * @property string $host
@@ -21,27 +19,31 @@ use Illuminate\Support\Carbon;
  * @property string $private_key
  * @property string $public_key
  * @property string $project_path
- * @property-read Collection|Deployment[] $deployments
- * @property-read Project $project
- * @method static Builder|Server newModelQuery()
- * @method static Builder|Server newQuery()
- * @method static Builder|Server query()
- * @method static Builder|Server whereCreatedAt($value)
- * @method static Builder|Server whereHost($value)
- * @method static Builder|Server whereId($value)
- * @method static Builder|Server whereLastConnected($value)
- * @method static Builder|Server whereName($value)
- * @method static Builder|Server wherePrivateKey($value)
- * @method static Builder|Server whereProjectId($value)
- * @method static Builder|Server whereProjectPath($value)
- * @method static Builder|Server wherePublicKey($value)
- * @method static Builder|Server whereUpdatedAt($value)
- * @method static Builder|Server whereUsername($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Deployment[] $deployments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Environment[] $environments
+ * @property-read \App\Project $project
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Server newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Server newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Server query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Server whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Server whereHost($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Server whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Server whereLastConnected($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Server whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Server wherePrivateKey($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Server whereProjectId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Server whereProjectPath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Server wherePublicKey($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Server whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Server whereUsername($value)
+ * @mixin \Eloquent
  */
 class Server extends Model
 {
 
-    protected $fillable = [];
+    protected $fillable = [
+        'name', 'host', 'username', 'private_key', 'public_key', 'project_path'
+    ];
 
     protected $dates = [];
 
@@ -71,5 +73,13 @@ class Server extends Model
     public function environments()
     {
         return $this->hasMany(Environment::class, 'server_id');
+    }
+
+    /**
+     * Api Path
+     * @return string
+     */
+    public function apiPath(): string {
+        return route('server.view', ['server' => $this->id]);
     }
 }

@@ -11,6 +11,7 @@ class CreateDeploymentsTable extends Migration
     {
         Schema::create('deployments', function(Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('delivery_id'); // X-GitHub-Delivery
 
             // We deploy a project against an environment, eg production, staging, etc
             // maybe in the future we can allow PRs to have temp environments set up
@@ -19,6 +20,8 @@ class CreateDeploymentsTable extends Migration
 
             $table->unsignedBigInteger('environment_id');
             $table->unsignedBigInteger('project_id');
+
+            $table->enum('deploy_type', ['manual', 'auto'])->default('manual');
 
             $table->timestamps();
 

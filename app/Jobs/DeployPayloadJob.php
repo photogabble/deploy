@@ -2,6 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Deployment;
+
 /**
  * Class DeployPayloadJob
  */
@@ -10,9 +12,9 @@ class DeployPayloadJob extends Job
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param Deployment $deployment
      */
-    public function __construct()
+    public function __construct(Deployment $deployment)
     {
         //
     }

@@ -19,7 +19,7 @@ $router->get('/', function () use ($router) {
 });
 
 $router->group(['middleware' => 'x-hub-signature'], function () use ($router) {
-    $router->post('/payload/{project}', ['as' => 'payload', 'uses' => 'PayloadController@actionPayload']);
+    $router->post('/payload/{project}', ['as' => 'project.deploy', 'uses' => 'DeploymentController@actionWebHook']);
 });
 
 

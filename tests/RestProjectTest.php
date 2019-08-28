@@ -44,7 +44,7 @@ class RestProjectTest extends TestCase
         /** @var \App\Project $project */
         $project = $user->projects()->save(factory('App\Project')->make());
 
-        $this->json('GET',$project->path());
+        $this->json('GET',$project->apiPath());
         $json = $this->responseJson();
 
         $this->assertEquals($project->id, $json['id']);
@@ -72,7 +72,7 @@ class RestProjectTest extends TestCase
         $project = $user->projects()->save(factory('App\Project')->make());
         $this->seeInDatabase('projects', ['id' => $project->id]);
 
-        $this->json('DELETE',$project->path());
+        $this->json('DELETE',$project->apiPath());
         $this->assertResponseStatus(204);
 
         $this->notSeeInDatabase('projects', ['id' => $project->id]);

@@ -1,42 +1,42 @@
 <?php namespace App;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Carbon;
 
 /**
  * App\Project
  *
- * @property-read Collection|Deployment[] $deployments
- * @property-read Collection|Server[] $servers
- * @property-read Collection|Task[] $tasks
- * @property-read User $user
- * @method static Builder|Project newModelQuery()
- * @method static Builder|Project newQuery()
- * @method static Builder|Project query()
  * @property int $id
+ * @property string $uuid
  * @property int $user_id
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string $name
  * @property string $provider
  * @property string $repository
  * @property string $main_branch
  * @property string|null $heartbeat_url
- * @method static Builder|Project whereUuid($value)
- * @method static Builder|Project whereMainBranch($value)
- * @method static Builder|Project whereCreatedAt($value)
- * @method static Builder|Project whereHeartbeatUrl($value)
- * @method static Builder|Project whereId($value)
- * @method static Builder|Project whereName($value)
- * @method static Builder|Project whereProvider($value)
- * @method static Builder|Project whereRepository($value)
- * @method static Builder|Project whereUpdatedAt($value)
- * @method static Builder|Project whereUserId($value)
- * @property string $uuid
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Deployment[] $deployments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Environment[] $environments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Server[] $servers
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Task[] $tasks
+ * @property-read \App\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Project newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Project newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Project query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Project whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Project whereHeartbeatUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Project whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Project whereMainBranch($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Project whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Project whereProvider($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Project whereRepository($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Project whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Project whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Project whereUuid($value)
+ * @mixin \Eloquent
  */
 class Project extends Model
 {
@@ -94,7 +94,7 @@ class Project extends Model
     }
 
     /**
-     * @return HasMany|Collection|Environment[]
+     * @return HasMany|Collection|Environment[]|Environment
      */
     public function environments()
     {
@@ -109,8 +109,20 @@ class Project extends Model
         return $this->hasMany(Task::class, 'project_id');
     }
 
-    public function path(): string {
+    /**
+     * Api Path
+     * @return string
+     */
+    public function apiPath(): string {
         return route('project.view', ['project' => $this->id]);
+    }
+
+    /**
+     * WebHook path for triggering deployments
+     * @return string
+     */
+    public function webHookPath(): string {
+        return route('project.deploy', ['project' => $this->uuid]);
     }
 
 }

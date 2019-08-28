@@ -1,9 +1,7 @@
 <?php namespace App;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Carbon;
 
 /**
  * App\Action
@@ -11,24 +9,25 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property int $deployment_id
  * @property int $task_id
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string $status
  * @property string|null $message
  * @property string|null $log
- * @property-read Deployment $deployment
- * @property-read Task $task
- * @method static Builder|Action newModelQuery()
- * @method static Builder|Action newQuery()
- * @method static Builder|Action query()
- * @method static Builder|Action whereCreatedAt($value)
- * @method static Builder|Action whereDeploymentId($value)
- * @method static Builder|Action whereId($value)
- * @method static Builder|Action whereLog($value)
- * @method static Builder|Action whereMessage($value)
- * @method static Builder|Action whereStatus($value)
- * @method static Builder|Action whereTaskId($value)
- * @method static Builder|Action whereUpdatedAt($value)
+ * @property-read \App\Deployment $deployment
+ * @property-read \App\Task $task
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Action newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Action newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Action query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Action whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Action whereDeploymentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Action whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Action whereLog($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Action whereMessage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Action whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Action whereTaskId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Action whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class Action extends Model {
 

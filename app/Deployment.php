@@ -1,32 +1,38 @@
 <?php namespace App;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Carbon;
 
 /**
  * App\Deployment
  *
  * @property int $id
+ * @property int $environment_id
  * @property int $project_id
- * @property int $server_id
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property-read Project $project
- * @method static Builder|Deployment newModelQuery()
- * @method static Builder|Deployment newQuery()
- * @method static Builder|Deployment query()
- * @method static Builder|Deployment whereCreatedAt($value)
- * @method static Builder|Deployment whereId($value)
- * @method static Builder|Deployment whereProjectId($value)
- * @method static Builder|Deployment whereServerId($value)
- * @method static Builder|Deployment whereUpdatedAt($value)
+ * @property string $deploy_type
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Deployment newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Deployment newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Deployment query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Deployment whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Deployment whereDeployType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Deployment whereEnvironmentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Deployment whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Deployment whereProjectId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Deployment whereUpdatedAt($value)
+ * @property string $delivery_id
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Deployment whereDeliveryId($value)
+ * @property-read \App\Environment $environment
+ * @property-read \App\Project $project
+ * @mixin \Eloquent
  */
 class Deployment extends Model
 {
 
-    protected $fillable = [];
+    const DEPLOY_MANUAL = 'manual';
+    const DEPLOY_AUTO   = 'auto';
+
+    protected $fillable = ['deploy_type', 'delivery_id'];
 
     protected $dates = [];
 
@@ -34,19 +40,13 @@ class Deployment extends Model
         // Validation rules
     ];
 
-//    /**
-//     * @return BelongsTo|Project
-//     */
-//    public function project()
-//    {
-//        return $this->belongsTo(Project::class, 'project_id');
-//    }
-//
-//    /**
-//     * @return BelongsTo|Server
-//     */
-//    public function server()
-//    {
-//        return $this->belongsTo(Server::class, 'server_id');
-//    }
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'project_id');
+    }
+
+    public function environment()
+    {
+        return $this->belongsTo(Environment::class, 'environment_id');
+    }
 }
